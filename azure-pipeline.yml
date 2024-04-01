@@ -31,7 +31,7 @@ steps:
   name: extractImages
   inputs:
     archiveFilePatterns: '$(Agent.TempDirectory)/portfolio.zip'
-    destinationFolder: 'img/portfolio/'
+    destinationFolder: 'img/'
     cleanDestinationFolder: true
     overwriteExistingFiles: true
 - task: AzureStaticWebApp@0
