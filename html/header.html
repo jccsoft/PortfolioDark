@@ -1,0 +1,60 @@
+<!-- <nav class="navbar navbar-dark bg-dark shadow-sm navbar-expand-sm my-2"> -->
+<nav class="navbar navbar-dark bg-dark shadow-sm navbar-expand-sm mb-2 flex-grow-1">
+  <div class="container justify-content-end">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+      <a class="nav-link" href="index.html" id="homeMenuId"></a>
+      <a class="nav-link" href="portfolio.html" id="portfolioMenuId"></a>
+      <!-- <a class="nav-link" href="#" id="cvMenuId">CV</a> -->
+      <a class="nav-link" href="about.html" id="aboutMenuId"></a>
+      <a class="nav-link" href="contact.html" id="contactMenuId"></a>
+
+      <div id="dropdowns" class="ms-5 d-flex">
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/img/globe.svg" alt="" width="18px" />
+          </a>
+          <ul id="lang-list" class="dropdown-menu bg-dark">
+            <li>
+              <a class="dropdown-item" href="#" data-bs-language="es">
+                <img src="/img/lang/es.svg" alt="Idioma Español" />Español</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-bs-language="ca"
+                ><img src="/img/lang/ca.svg" alt="Idioma Català" />Català</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/img/settings.svg" alt="" width="18px" />
+          </a>
+          <ul id="theme-list" class="dropdown-menu bg-dark">
+            <li>
+              <a class="dropdown-item" href="#" data-bs-theme-value="dark"> <i class="bi bi-moon"></i>Dark</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-bs-theme-value="light"><i class="bi bi-sun"></i>Light</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-bs-theme-value="auto"><i class="bi bi-display"></i>Auto</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

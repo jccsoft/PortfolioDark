@@ -1,0 +1,31 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: portfolio-variable-group
+
+steps:
+- task: DownloadSecureFile@1
+  name: configFile
+  inputs:
+    secureFile: 'config.dev.json'
+- task: DownloadSecureFile@1
+  name: siteDataFile
+  inputs:
+    secureFile: 'site-data.dev.json'
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: '*.json'
+    TargetFolder: 'data/'
+    OverWrite: true
+- task: AzureStaticWebApp@0
+  inputs:
+    app_location: "/"
+    skip_app_build: true
+    skip_api_build: true
+    azure_static_web_apps_api_token: $(deployment_token)
+    production_branch: "main"
