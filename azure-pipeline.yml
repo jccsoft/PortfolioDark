@@ -16,6 +16,10 @@ steps:
   name: siteDataFile
   inputs:
     secureFile: 'site-data.dev.json'
+- task: DownloadSecureFile@1
+  name: portfolioZipFile
+  inputs:
+    secureFile: 'portfolio.zip'
 - task: CopyFiles@2
   name: copyJsons
   inputs:
@@ -23,16 +27,13 @@ steps:
     Contents: '*.json'
     TargetFolder: 'data/'
     OverWrite: true
-- task: CopyFiles@2
-  name: copyImages
+- task: ExtractFiles@1
+  name: extractImages
   inputs:
-    SourceFolder: '$(Agent.TempDirectory)'
-    Contents: |
-      *.webp
-      *.jpg
-      *.png
-    TargetFolder: 'img/portfolio/'
-    OverWrite: true
+    archiveFilePatterns: '$(Agent.TempDirectory)/portfolio.zip'
+    destinationFolder: 'img/portfolio/'
+    cleanDestinationFolder: true
+    overwriteExistingFiles: true
 - task: AzureStaticWebApp@0
   inputs:
     app_location: "/"
