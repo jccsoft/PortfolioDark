@@ -17,10 +17,21 @@ steps:
   inputs:
     secureFile: 'site-data.dev.json'
 - task: CopyFiles@2
+  name: copyJsons
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: '*.json'
     TargetFolder: 'data/'
+    OverWrite: true
+- task: CopyFiles@2
+  name: copyImages
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: |
+      *.webp
+      *.jpg
+      *.png
+    TargetFolder: 'img/portfolio/'
     OverWrite: true
 - task: AzureStaticWebApp@0
   inputs:
