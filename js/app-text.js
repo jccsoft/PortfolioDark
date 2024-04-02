@@ -87,13 +87,24 @@
       let htmlItems = "";
       for (let i = 0; i < item.highlights.length; i++) {
         const highlight = item.highlights[i];
-        htmlItems += `<li>${highlight}</li>`;
+        htmlItems += `<li>${highlight}.</li>`;
       }
       document.getElementById("item-highlights-list").innerHTML = htmlItems;
       document.getElementById("item-highlights").classList.remove("visually-hidden");
     } else {
       document.getElementById("item-highlights").classList.add("visually-hidden");
     }
+
+    const links = ["url", "swagger", "github"];
+    links.forEach((link) => {
+      const el = document.getElementById(`item-${link}`);
+      if (item[link] !== undefined && item[link].length > 0) {
+        el.href = item[link];
+        el.style.visibility = "visible";
+      } else {
+        el.style.visibility = "hidden";
+      }
+    });
   };
 
   app.setContactText = function (pageData) {

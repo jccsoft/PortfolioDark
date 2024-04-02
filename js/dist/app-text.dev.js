@@ -101,7 +101,7 @@
 
       for (var i = 0; i < item.highlights.length; i++) {
         var highlight = item.highlights[i];
-        htmlItems += "<li>".concat(highlight, "</li>");
+        htmlItems += "<li>".concat(highlight, ".</li>");
       }
 
       document.getElementById("item-highlights-list").innerHTML = htmlItems;
@@ -109,6 +109,18 @@
     } else {
       document.getElementById("item-highlights").classList.add("visually-hidden");
     }
+
+    var links = ["url", "swagger", "github"];
+    links.forEach(function (link) {
+      var el = document.getElementById("item-".concat(link));
+
+      if (item[link] !== undefined && item[link].length > 0) {
+        el.href = item[link];
+        el.style.visibility = "visible";
+      } else {
+        el.style.visibility = "hidden";
+      }
+    });
   };
 
   app.setContactText = function (pageData) {
