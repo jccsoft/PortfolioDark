@@ -87,8 +87,8 @@
     });
   };
 
-  app.setPortfolioItemText = function (itemId, items) {
-    var item = items.find(function (el) {
+  app.setPortfolioItemText = function (itemId, pageData) {
+    var item = pageData.items.find(function (el) {
       return el.id === Number(itemId);
     });
     document.getElementById("item-image").src = "img/portfolio/".concat(item.images[0]);
@@ -105,6 +105,7 @@
       }
 
       document.getElementById("item-highlights-list").innerHTML = htmlItems;
+      document.getElementById("item-highlights-title").innerText = pageData.highlightsText;
       document.getElementById("item-highlights").classList.remove("visually-hidden");
     } else {
       document.getElementById("item-highlights").classList.add("visually-hidden");

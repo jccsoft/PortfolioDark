@@ -293,11 +293,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
   function handlePortfolioClick(e) {
     e.preventDefault();
-    var itemId = e.target.closest("a").id;
-    appText.setPortfolioItemText(itemId, siteData.portfolio.items);
-    document.getElementById("portfolio-showroom").classList.remove("show"); // document.querySelector("header").classList.add("visually-hidden");
-    // document.querySelector("footer").classList.add("visually-hidden");
-
+    var anchor = e.target.closest("a");
+    if (anchor === null) return;
+    var itemId = anchor.id;
+    appText.setPortfolioItemText(itemId, siteData.portfolio);
+    document.getElementById("portfolio-showroom").classList.remove("show");
     document.getElementById("item-collapse").click();
   } //#endregion
 

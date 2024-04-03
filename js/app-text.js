@@ -75,8 +75,8 @@
     portfolioShowroom.classList.add("show");
   };
 
-  app.setPortfolioItemText = function (itemId, items) {
-    const item = items.find((el) => el.id === Number(itemId));
+  app.setPortfolioItemText = function (itemId, pageData) {
+    const item = pageData.items.find((el) => el.id === Number(itemId));
 
     document.getElementById("item-image").src = `img/portfolio/${item.images[0]}`;
     document.getElementById("item-title").innerText = item.title;
@@ -90,6 +90,7 @@
         htmlItems += `<li>${highlight}.</li>`;
       }
       document.getElementById("item-highlights-list").innerHTML = htmlItems;
+      document.getElementById("item-highlights-title").innerText = pageData.highlightsText;
       document.getElementById("item-highlights").classList.remove("visually-hidden");
     } else {
       document.getElementById("item-highlights").classList.add("visually-hidden");

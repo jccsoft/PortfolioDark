@@ -185,13 +185,14 @@
 
   function handlePortfolioClick(e) {
     e.preventDefault();
-    const itemId = e.target.closest("a").id;
+    const anchor = e.target.closest("a");
+    if (anchor === null) return;
 
-    appText.setPortfolioItemText(itemId, siteData.portfolio.items);
+    const itemId = anchor.id;
+
+    appText.setPortfolioItemText(itemId, siteData.portfolio);
 
     document.getElementById("portfolio-showroom").classList.remove("show");
-    // document.querySelector("header").classList.add("visually-hidden");
-    // document.querySelector("footer").classList.add("visually-hidden");
     document.getElementById("item-collapse").click();
   }
 
