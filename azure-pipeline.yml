@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - group: PortfolioDarkGroup
+  - group: portfolio-variable-group
 
 steps:
 - task: DownloadSecureFile@1
