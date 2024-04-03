@@ -32,7 +32,7 @@ steps:
   inputs:
     archiveFilePatterns: '$(Agent.TempDirectory)/portfolio.zip'
     destinationFolder: 'img/'
-    cleanDestinationFolder: true
+    cleanDestinationFolder: false
     overwriteExistingFiles: true
 - task: AzureStaticWebApp@0
   inputs:
