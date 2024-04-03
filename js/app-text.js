@@ -60,7 +60,8 @@
 
       html = template
         .replace("@id", item.id)
-        .replace("@image", `img/portfolio/${item.images[0]}`)
+        .replace("@image_srcset", `img/portfolio/${item.images[0]}.webp`)
+        .replace("@image_src", `img/portfolio/png/${item.images[0]}.png`)
         .replace("@title", item.title)
         .replace("@description", item.description)
         .replace("@technologies", item.technologies);
@@ -78,7 +79,7 @@
   app.setPortfolioItemText = function (itemId, pageData) {
     const item = pageData.items.find((el) => el.id === Number(itemId));
 
-    document.getElementById("item-image").src = `img/portfolio/${item.images[0]}`;
+    fillPortfolioSlides(item.images);
     document.getElementById("item-title").innerText = item.title;
     document.getElementById("item-description").innerText = item.description;
     document.getElementById("item-technologies").innerText = item.technologies;
@@ -107,6 +108,40 @@
       }
     });
   };
+
+  function fillPortfolioSlides(images) {
+    const carouselInner = document.querySelector("#images-carousel .carousel-inner");
+    const carouselIndicators = document.querySelector("#images-carousel .carousel-indicators");
+    document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
+    const firstItem = document.querySelector("#images-carousel .carousel-item.active");
+    const firstButton = document.querySelector("#images-carousel .carousel-indicators button.active");
+
+    document.querySelectorAll("#images-carousel .carousel-item:not(.active)").forEach((el) => el.remove());
+    document.querySelectorAll("#images-carousel .carousel-indicators button:not(.active)").forEach((el) => el.remove());
+    firstItem.classList.remove("active");
+    firstButton.classList.remove("active");
+
+    for (let index = 0; index < images.length; index++) {
+      const imageName = images[index];
+
+      if (index > 0) {
+        carouselInner.appendChild(firstItem.cloneNode(true));
+        carouselIndicators.appendChild(firstButton.cloneNode(true));
+      }
+      const currentItem = document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
+      currentItem.querySelector("picture source").srcset = `img/portfolio/${imageName}.webp`;
+      currentItem.querySelector("picture img").src = `img/portfolio/png/${imageName}.png`;
+      currentItem.querySelector("picture img").alt = imageName.title;
+
+      const currentButton = document.querySelector("#images-carousel .carousel-indicators button:last-child");
+      currentButton.setAttribute("data-bs-slide-to", `${index}`);
+      currentButton.ariaLabel = `Slide ${imageName.title}`;
+      currentButton.ariaCurrent = "false";
+    }
+    firstItem.classList.add("active");
+    firstButton.classList.add("active");
+    firstButton.ariaCurrent = "true";
+  }
 
   app.setContactText = function (pageData) {
     const form = document.getElementById("contact-form");

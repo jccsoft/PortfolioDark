@@ -1,14 +1,17 @@
 <div class="col">
   <a id="@id" href="#">
     <div class="card shadow-sm">
-      <img
-        src="@image"
-        class="bd-placeholder-img card-img-top"
-        width="100%"
-        height="225"
-        preserveAspectRatio="xMidYMid slice"
-        focusable="false"
-      />
+      <picture>
+        <source srcset="@image_srcset" type="image/webp" />
+        <img
+          src="@image_src"
+          class="img-fluid bd-placeholder-img card-img-top"
+          width="100%"
+          height="225"
+          preserveAspectRatio="xMidYMid slice"
+          focusable="false"
+        />
+      </picture>
       <div class="card-body text-center">
         <h5 class="card-title">@title</h5>
         <p class="card-text">@description</p>

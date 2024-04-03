@@ -134,6 +134,14 @@ a .card:hover .card-title {
   background-color: var(--bg-color-portfolio);
 }
 
+.carousel-control-prev {
+  margin-left: -2rem;
+}
+.carousel-control-next {
+  margin-right: -2rem;
+  color: black;
+}
+
 /*#endregion */
 
 /*#region LIGHT MODE */

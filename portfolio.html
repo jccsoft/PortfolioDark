@@ -61,7 +61,36 @@
         <button id="item-close" class="btn btn-close-white btn-light mb-3" href="#">X</button>
         <div class="card">
           <div class="card-header"><h1 id="item-title">Title</h1></div>
-          <img id="item-image" src="" class="card-img-top" />
+          <div id="images-carousel" class="carousel slide carousel-fade carousel-dark" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                class="active"
+                data-bs-target="#carousel-captions"
+                data-bs-slide-to="0"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+            </div>
+
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <picture>
+                  <source srcset="" type="image/webp" />
+                  <img src="" class="img-fluid" alt="" />
+                </picture>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#images-carousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#images-carousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
           <div class="card-body">
             <p id="item-description" class="card-text fw-bold">Description</p>
             <div id="item-highlights" class="text-start">
