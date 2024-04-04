@@ -6,6 +6,7 @@
 # Development Data
 data/*.dev.json
 img/portfolio/*.*
+img/portfolio/png/*.*
 
 # User-specific files
 *.rsuser

@@ -125,41 +125,35 @@
   };
 
   function fillPortfolioSlides(images) {
-    var carouselInner = document.querySelector("#images-carousel .carousel-inner");
-    var carouselIndicators = document.querySelector("#images-carousel .carousel-indicators");
+    var carouselInner = document.querySelector("#images-carousel .carousel-inner"); // const carouselIndicators = document.querySelector("#images-carousel .carousel-indicators");
+
     document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
-    var firstItem = document.querySelector("#images-carousel .carousel-item.active");
-    var firstButton = document.querySelector("#images-carousel .carousel-indicators button.active");
+    var firstItem = document.querySelector("#images-carousel .carousel-item.active"); // const firstButton = document.querySelector("#images-carousel .carousel-indicators button.active");
+
     document.querySelectorAll("#images-carousel .carousel-item:not(.active)").forEach(function (el) {
       return el.remove();
-    });
-    document.querySelectorAll("#images-carousel .carousel-indicators button:not(.active)").forEach(function (el) {
-      return el.remove();
-    });
-    firstItem.classList.remove("active");
-    firstButton.classList.remove("active");
+    }); // document.querySelectorAll("#images-carousel .carousel-indicators button:not(.active)").forEach((el) => el.remove());
+
+    firstItem.classList.remove("active"); // firstButton.classList.remove("active");
 
     for (var index = 0; index < images.length; index++) {
       var imageName = images[index];
 
       if (index > 0) {
-        carouselInner.appendChild(firstItem.cloneNode(true));
-        carouselIndicators.appendChild(firstButton.cloneNode(true));
+        carouselInner.appendChild(firstItem.cloneNode(true)); // carouselIndicators.appendChild(firstButton.cloneNode(true));
       }
 
       var currentItem = document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
       currentItem.querySelector("picture source").srcset = "img/portfolio/".concat(imageName, ".webp");
       currentItem.querySelector("picture img").src = "img/portfolio/png/".concat(imageName, ".png");
-      currentItem.querySelector("picture img").alt = imageName.title;
-      var currentButton = document.querySelector("#images-carousel .carousel-indicators button:last-child");
-      currentButton.setAttribute("data-bs-slide-to", "".concat(index));
-      currentButton.ariaLabel = "Slide ".concat(imageName.title);
-      currentButton.ariaCurrent = "false";
+      currentItem.querySelector("picture img").alt = imageName.title; // const currentButton = document.querySelector("#images-carousel .carousel-indicators button:last-child");
+      // currentButton.setAttribute("data-bs-slide-to", `${index}`);
+      // currentButton.ariaLabel = `Slide ${imageName.title}`;
+      // currentButton.ariaCurrent = "false";
     }
 
-    firstItem.classList.add("active");
-    firstButton.classList.add("active");
-    firstButton.ariaCurrent = "true";
+    firstItem.classList.add("active"); // firstButton.classList.add("active");
+    // firstButton.ariaCurrent = "true";
   }
 
   app.setContactText = function (pageData) {
