@@ -111,11 +111,11 @@ nav .dropdown-item:hover {
   max-width: var(--max-width);
 }
 
-.card .card-header,
+/* .card .card-header,
 .card .card-title,
 #item-description {
   color: var(--color-highlighted);
-}
+} */
 a .card:hover {
   border: 2px solid var(--color-highlighted);
 }
