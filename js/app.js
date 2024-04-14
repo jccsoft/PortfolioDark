@@ -1,8 +1,8 @@
 (function (app) {
   ("use strict");
 
-  import("./app-data.js");
-  import("./app-text.js");
+  // import("./app-data.js");
+  // import("./app-text.js");
 
   let siteConfig, siteData, currentPage;
   let browserConfig = { lang: "", theme: "" };
