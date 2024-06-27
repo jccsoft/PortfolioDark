@@ -4,7 +4,7 @@
   --color: white;
   --color-disabled: rgba(255, 255, 255, 0.7);
   --color-highlighted: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
-  --bg-color-portfolio: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity, 1));
+  --bg-color-portfolio: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity, 1));
   --max-width: 710px;
   --lightmode-color: #0e6251;
   --ligthmode-headfoot-bg-color: #1abc9c;
@@ -106,18 +106,12 @@ nav .dropdown-item:hover {
 }
 
 .card {
-  border: 0;
   margin: auto;
   max-width: var(--max-width);
 }
 
-/* .card .card-header,
-.card .card-title,
-#item-description {
-  color: var(--color-highlighted);
-} */
 a .card:hover {
-  border: 2px solid var(--color-highlighted);
+  box-shadow: 0 0.125rem 1rem var(--color-highlighted) !important;
 }
 a .card:hover .card-title {
   color: var(--color-highlighted);
@@ -129,7 +123,9 @@ a .card:hover .card-title {
 .card-title {
   text-transform: uppercase;
 }
-
+.card-text {
+  min-height: 3rem;
+}
 #item-links a:hover {
   background-color: var(--bg-color-portfolio);
 }
@@ -146,7 +142,7 @@ a .card:hover .card-title {
 
 /*#region LIGHT MODE */
 [data-bs-theme="light"] body,
-[data-bs-theme="light"] .bg-body-tertiary {
+[data-bs-theme="light"] .bg-body-secondary {
   background-color: var(--lightmode-bg-color) !important;
   color: var(--lightmode-color);
 }
@@ -161,8 +157,9 @@ a .card:hover .card-title {
 }
 
 [data-bs-theme="light"] a .card:hover {
-  border: 2px solid var(--ligthmode-headfoot-bg-color);
+  box-shadow: 0 0.125rem 1rem var(--ligthmode-headfoot-bg-color) !important;
 }
+
 [data-bs-theme="light"] .card:hover .card-title,
 [data-bs-theme="light"] .card-title,
 [data-bs-theme="light"] #item-description,
