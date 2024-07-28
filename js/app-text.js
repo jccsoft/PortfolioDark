@@ -91,56 +91,48 @@
         htmlItems += `<li>${highlight}.</li>`;
       }
       document.getElementById("item-highlights-list").innerHTML = htmlItems;
-      document.getElementById("item-highlights-title").innerText = pageData.highlightsText;
+      //document.getElementById("item-highlights-title").innerText = pageData.highlightsText;
       document.getElementById("item-highlights").classList.remove("visually-hidden");
     } else {
       document.getElementById("item-highlights").classList.add("visually-hidden");
     }
 
-    const links = ["url", "swagger", "github"];
-    links.forEach((link) => {
+    const links = ["url", "url2", "swagger", "github"];
+    const default_titles = ["Web", "Web", "Swagger", "GitHub"];
+    for (let i = 0; i < links.length; i++) {
+      const link = links[i];
       const el = document.getElementById(`item-${link}`);
       if (item[link] !== undefined && item[link].length > 0) {
         el.href = item[link];
         el.style.visibility = "visible";
+        let title = item[`${link}_title`];
+        el.text = title !== undefined ? title : default_titles[i];
       } else {
         el.style.visibility = "hidden";
       }
-    });
+    }
   };
 
   function fillPortfolioSlides(images) {
     const carouselInner = document.querySelector("#images-carousel .carousel-inner");
-    // const carouselIndicators = document.querySelector("#images-carousel .carousel-indicators");
     document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
     const firstItem = document.querySelector("#images-carousel .carousel-item.active");
-    // const firstButton = document.querySelector("#images-carousel .carousel-indicators button.active");
 
     document.querySelectorAll("#images-carousel .carousel-item:not(.active)").forEach((el) => el.remove());
-    // document.querySelectorAll("#images-carousel .carousel-indicators button:not(.active)").forEach((el) => el.remove());
     firstItem.classList.remove("active");
-    // firstButton.classList.remove("active");
 
     for (let index = 0; index < images.length; index++) {
       const imageName = images[index];
 
       if (index > 0) {
         carouselInner.appendChild(firstItem.cloneNode(true));
-        // carouselIndicators.appendChild(firstButton.cloneNode(true));
       }
       const currentItem = document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
       currentItem.querySelector("picture source").srcset = `img/portfolio/${imageName}.webp`;
       currentItem.querySelector("picture img").src = `img/portfolio/png/${imageName}.png`;
       currentItem.querySelector("picture img").alt = imageName.title;
-
-      // const currentButton = document.querySelector("#images-carousel .carousel-indicators button:last-child");
-      // currentButton.setAttribute("data-bs-slide-to", `${index}`);
-      // currentButton.ariaLabel = `Slide ${imageName.title}`;
-      // currentButton.ariaCurrent = "false";
     }
     firstItem.classList.add("active");
-    // firstButton.classList.add("active");
-    // firstButton.ariaCurrent = "true";
   }
 
   app.setContactText = function (pageData) {
