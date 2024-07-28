@@ -113,7 +113,8 @@ nav .dropdown-item:hover {
 a .card:hover {
   box-shadow: 0 0.125rem 1rem var(--color-highlighted) !important;
 }
-a .card:hover .card-title {
+a .card:hover .card-title,
+#item-title {
   color: var(--color-highlighted);
 }
 
@@ -125,6 +126,12 @@ a .card:hover .card-title {
 }
 .card-text {
   min-height: 3rem;
+  margin-bottom: 0;
+}
+#item-description {
+  min-height: 0;
+  margin-bottom: 0.2rem;
+  color: var(--color-highlighted);
 }
 #item-links a:hover {
   background-color: var(--bg-color-portfolio);
