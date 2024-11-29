@@ -1,6 +1,8 @@
 (function (app) {
   ("use strict");
 
+  // import('fs');
+
   // import("./app-data.js");
   // import("./app-text.js");
 
@@ -17,6 +19,8 @@
     setPageText();
 
     wireUpEvents();
+
+    preloadImages();
   };
 
   //#region COMMON HTML
@@ -103,6 +107,17 @@
     const sysLight = window.matchMedia("(prefers-color-scheme: light)").matches;
     const pageTheme = browserConfig.theme === "auto" ? (sysLight ? "light" : "dark") : browserConfig.theme;
     document.documentElement.setAttribute("data-bs-theme", pageTheme);
+  }
+
+  function preloadImages(){
+    for (let i = 0; i < siteData.portfolio.items.length; i++) {
+      const item = siteData.portfolio.items[i];
+      for (let j = 0; j < item.images.length; j++) {
+        const imgUrl = './img/portfolio/' + item.images[j] +  '.webp';
+        let img = new Image();
+        img.src = imgUrl;      
+      }
+    }
   }
 
   //#region EVENTS
