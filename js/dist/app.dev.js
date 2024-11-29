@@ -73,7 +73,7 @@ function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only")
             header.classList.add("m-md-auto", "d-flex");
             header.setAttribute("data-bs-theme", "dark");
             menuId = "#".concat(currentPage, "MenuId");
-            if (currentPage === "portfolio-item") menuId = "#portfolioMenuId";
+            if (currentPage === "project") menuId = "#portfolioMenuId";
             menu = header.querySelector(menuId);
             menu.classList.add("active");
             menu.setAttribute("aria-current", "page");
@@ -185,9 +185,9 @@ function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only")
     if (currentPage === "portfolio") {
       var pf = document.getElementById("portfolio-showroom");
       var pfCollapse = document.getElementById("portfolio-collapse");
-      var item = document.getElementById("portfolio-item");
-      var itemCollapse = document.getElementById("item-collapse");
-      var itemClose = document.getElementById("item-close");
+      var item = document.getElementById("project");
+      var itemCollapse = document.getElementById("project-collapse");
+      var itemClose = document.getElementById("project-close");
       pf.addEventListener("click", handlePortfolioClick);
       pf.addEventListener("hidden.bs.collapse", function () {
         return itemCollapse.click();
@@ -288,7 +288,7 @@ function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only")
     var itemId = anchor.id;
     appText.setPortfolioItemText(itemId, siteData.portfolio);
     document.getElementById("portfolio-showroom").classList.remove("show");
-    document.getElementById("item-collapse").click();
+    document.getElementById("project-collapse").click();
   } //#endregion
 
 })(window.app = window.app || {});

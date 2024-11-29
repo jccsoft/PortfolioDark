@@ -92,9 +92,9 @@
       return el.id === Number(itemId);
     });
     fillPortfolioSlides(item.images);
-    document.getElementById("item-title").innerText = item.title;
-    document.getElementById("item-description").innerText = item.description;
-    document.getElementById("item-technologies").innerText = item.technologies;
+    document.getElementById("project-title").innerText = item.title;
+    document.getElementById("project-description").innerText = item.description;
+    document.getElementById("project-technologies").innerText = item.technologies;
 
     if (item.highlights !== undefined && item.highlights.length > 0) {
       var htmlItems = "";
@@ -104,11 +104,11 @@
         htmlItems += "<li>".concat(highlight, ".</li>");
       }
 
-      document.getElementById("item-highlights-list").innerHTML = htmlItems; //document.getElementById("item-highlights-title").innerText = pageData.highlightsText;
+      document.getElementById("project-highlights-list").innerHTML = htmlItems; //document.getElementById("project-highlights-title").innerText = pageData.highlightsText;
 
-      document.getElementById("item-highlights").classList.remove("visually-hidden");
+      document.getElementById("project-highlights").classList.remove("visually-hidden");
     } else {
-      document.getElementById("item-highlights").classList.add("visually-hidden");
+      document.getElementById("project-highlights").classList.add("visually-hidden");
     }
 
     var links = ["url", "url2", "swagger", "github"];

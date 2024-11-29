@@ -31,7 +31,7 @@
     header.setAttribute("data-bs-theme", "dark");
 
     let menuId = `#${currentPage}MenuId`;
-    if (currentPage === "portfolio-item") menuId = "#portfolioMenuId";
+    if (currentPage === "project") menuId = "#portfolioMenuId";
     const menu = header.querySelector(menuId);
     menu.classList.add("active");
     menu.setAttribute("aria-current", "page");
@@ -111,9 +111,9 @@
 
   function preloadImages(){
     for (let i = 0; i < siteData.portfolio.projects.length; i++) {
-      const item = siteData.portfolio.projects[i];
-      for (let j = 0; j < item.images.length; j++) {
-        const imgUrl = './img/portfolio/' + item.images[j] +  '.webp';
+      const project = siteData.portfolio.projects[i];
+      for (let j = 0; j < project.images.length; j++) {
+        const imgUrl = './img/portfolio/' + project.images[j] +  '.webp';
         let img = new Image();
         img.src = imgUrl;      
       }
@@ -132,15 +132,15 @@
     if (currentPage === "portfolio") {
       const pf = document.getElementById("portfolio-showroom");
       const pfCollapse = document.getElementById("portfolio-collapse");
-      const item = document.getElementById("portfolio-item");
-      const itemCollapse = document.getElementById("item-collapse");
-      const itemClose = document.getElementById("item-close");
+      const project = document.getElementById("project");
+      const projectCollapse = document.getElementById("project-collapse");
+      const projectClose = document.getElementById("project-close");
 
       pf.addEventListener("click", handlePortfolioClick);
-      pf.addEventListener("hidden.bs.collapse", () => itemCollapse.click());
+      pf.addEventListener("hidden.bs.collapse", () => projectCollapse.click());
 
-      itemClose.addEventListener("click", () => itemCollapse.click());
-      item.addEventListener("hidden.bs.collapse", () => pfCollapse.click());
+      projectClose.addEventListener("click", () => projectCollapse.click());
+      project.addEventListener("hidden.bs.collapse", () => pfCollapse.click());
     }
   }
 
@@ -203,12 +203,12 @@
     const anchor = e.target.closest("a");
     if (anchor === null) return;
 
-    const itemId = anchor.id;
+    const projectId = anchor.id;
 
-    appContent.setPortfolioText(itemId, siteData.portfolio);
+    appContent.setProjectText(projectId, siteData.portfolio);
 
     document.getElementById("portfolio-showroom").classList.remove("show");
-    document.getElementById("item-collapse").click();
+    document.getElementById("project-collapse").click();
   }
 
   //#endregion

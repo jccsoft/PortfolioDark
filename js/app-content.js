@@ -61,15 +61,15 @@
 
     let html;
     for (let i = 0; i < projects.length; i++) {
-      const item = projects[i];
+      const project = projects[i];
 
       html = template
-        .replace("@id", item.id)
-        .replace("@image_srcset", `img/portfolio/${item.images[0]}.webp`)
-        .replace("@image_src", `img/portfolio/png/${item.images[0]}.png`)
-        .replace("@title", item.title)
-        .replace("@description", item.description)
-        .replace("@technologies", item.technologies);
+        .replace("@id", project.id)
+        .replace("@image_srcset", `img/portfolio/${project.images[0]}.webp`)
+        .replace("@image_src", `img/portfolio/png/${project.images[0]}.png`)
+        .replace("@title", project.title)
+        .replace("@description", project.description)
+        .replace("@technologies", project.technologies);
 
       row.innerHTML += html;
     }
@@ -81,36 +81,36 @@
     portfolioShowroom.classList.add("show");
   };
 
-  app.setPortfolioText = function (itemId, pageData) {
-    const item = pageData.projects.find((el) => el.id === Number(itemId));
+  app.setProjectText = function (projectId, pageData) {
+    const project = pageData.projects.find((el) => el.id === Number(projectId));
 
-    setPortfolioSlides(item.images);
-    document.getElementById("item-title").innerText = item.title;
-    document.getElementById("item-description").innerText = item.description;
-    document.getElementById("item-technologies").innerText = item.technologies;
+    setProjectSlides(project.images);
+    document.getElementById("project-title").innerText = project.title;
+    document.getElementById("project-description").innerText = project.description;
+    document.getElementById("project-technologies").innerText = project.technologies;
 
-    if (item.highlights !== undefined && item.highlights.length > 0) {
+    if (project.highlights !== undefined && project.highlights.length > 0) {
       let htmlItems = "";
-      for (let i = 0; i < item.highlights.length; i++) {
-        const highlight = item.highlights[i];
+      for (let i = 0; i < project.highlights.length; i++) {
+        const highlight = project.highlights[i];
         htmlItems += `<li>${highlight}.</li>`;
       }
-      document.getElementById("item-highlights-list").innerHTML = htmlItems;
-      //document.getElementById("item-highlights-title").innerText = pageData.highlightsText;
-      document.getElementById("item-highlights").classList.remove("visually-hidden");
+      document.getElementById("project-highlights-list").innerHTML = htmlItems;
+      //document.getElementById("project-highlights-title").innerText = pageData.highlightsText;
+      document.getElementById("project-highlights").classList.remove("visually-hidden");
     } else {
-      document.getElementById("item-highlights").classList.add("visually-hidden");
+      document.getElementById("project-highlights").classList.add("visually-hidden");
     }
 
     const links = ["url", "url2", "swagger", "github"];
     const default_titles = ["Web", "Web", "Swagger", "GitHub"];
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
-      const el = document.getElementById(`item-${link}`);
-      if (item[link] !== undefined && item[link].length > 0) {
-        el.href = item[link];
+      const el = document.getElementById(`project-${link}`);
+      if (project[link] !== undefined && project[link].length > 0) {
+        el.href = project[link];
         el.style.visibility = "visible";
-        let title = item[`${link}_title`];
+        let title = project[`${link}_title`];
         el.text = title !== undefined ? title : default_titles[i];
       } else {
         el.style.visibility = "hidden";
@@ -118,7 +118,7 @@
     }
   };
 
-  function setPortfolioSlides(images) {
+  function setProjectSlides(images) {
     const carouselInner = document.querySelector("#images-carousel .carousel-inner");
     document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
     const firstItem = document.querySelector("#images-carousel .carousel-item.active");

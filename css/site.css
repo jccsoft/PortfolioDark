@@ -114,7 +114,7 @@ a .card:hover {
   box-shadow: 0 0.125rem 1rem var(--color-highlighted) !important;
 }
 a .card:hover .card-title,
-#item-title {
+#project-title {
   color: var(--color-highlighted);
 }
 
@@ -128,12 +128,12 @@ a .card:hover .card-title,
   min-height: 3rem;
   margin-bottom: 0;
 }
-#item-description {
+#project-description {
   min-height: 0;
   margin-bottom: 0.2rem;
   color: var(--color-highlighted);
 }
-#item-links a:hover {
+#project-links a:hover {
   background-color: var(--bg-color-portfolio);
 }
 
@@ -169,11 +169,11 @@ a .card:hover .card-title,
 
 [data-bs-theme="light"] .card:hover .card-title,
 [data-bs-theme="light"] .card-title,
-[data-bs-theme="light"] #item-description,
-[data-bs-theme="light"] #item-links a {
+[data-bs-theme="light"] #project-description,
+[data-bs-theme="light"] #project-links a {
   color: var(--ligthmode-headfoot-bg-color);
 }
-[data-bs-theme="light"] #item-links a:hover {
+[data-bs-theme="light"] #project-links a:hover {
   background-color: var(--lightmode-bg-color);
 }
 [data-bs-theme="light"] .card .card-header {
