@@ -9,6 +9,7 @@
     document.title = title;
   };
 
+
   app.setMenuText = function (menu) {
     const menuIds = ["homeMenuId", "portfolioMenuId", "aboutMenuId", "contactMenuId"];
     for (let i = 0; i < menuIds.length; i++) {
@@ -17,6 +18,7 @@
     }
   };
 
+//#region HOME-ABOUT
   app.setHomeText = function (pageData) {
     setHomeAndAboutText(pageData);
     document.getElementById("btnPortfolio").innerText = pageData.btnPortfolio;
@@ -45,18 +47,21 @@
 
     mainDiv.querySelector("p").innerHTML = html;
   }
+//#endregion
 
-  app.fillPortfoliosAsync = async function (items) {
+
+//#region PORTFOLIO
+  app.fillPortfolioAsync = async function (projects) {
     const portfolioShowroom = document.getElementById("portfolio-showroom");
-    const template = await appData.getTextFromFileAsync("./html/portfolio-card.html");
+    const template = await appIO.getTextFromFileAsync("./html/portfolio-card.html");
 
     const portfolioFragment = document.createDocumentFragment();
     const row = document.createElement("div");
     row.classList.add("row", "g-3", "row-cols-1", "row-cols-sm-2", "row-cols-md-3");
 
     let html;
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
+    for (let i = 0; i < projects.length; i++) {
+      const item = projects[i];
 
       html = template
         .replace("@id", item.id)
@@ -76,10 +81,10 @@
     portfolioShowroom.classList.add("show");
   };
 
-  app.setPortfolioItemText = function (itemId, pageData) {
-    const item = pageData.items.find((el) => el.id === Number(itemId));
+  app.setPortfolioText = function (itemId, pageData) {
+    const item = pageData.projects.find((el) => el.id === Number(itemId));
 
-    fillPortfolioSlides(item.images);
+    setPortfolioSlides(item.images);
     document.getElementById("item-title").innerText = item.title;
     document.getElementById("item-description").innerText = item.description;
     document.getElementById("item-technologies").innerText = item.technologies;
@@ -113,7 +118,7 @@
     }
   };
 
-  function fillPortfolioSlides(images) {
+  function setPortfolioSlides(images) {
     const carouselInner = document.querySelector("#images-carousel .carousel-inner");
     document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
     const firstItem = document.querySelector("#images-carousel .carousel-item.active");
@@ -134,6 +139,8 @@
     }
     firstItem.classList.add("active");
   }
+//#endregion
+
 
   app.setContactText = function (pageData) {
     const form = document.getElementById("contact-form");
@@ -172,4 +179,5 @@
     }
   }
   //#endregion
-})((window.appText = window.appText || {}));
+
+})((window.appContent = window.appContent || {}));

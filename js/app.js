@@ -1,38 +1,32 @@
 (function (app) {
   ("use strict");
 
-  // import('fs');
-
-  // import("./app-data.js");
-  // import("./app-text.js");
-
   let siteConfig, siteData, currentPage;
   let browserConfig = { lang: "", theme: "" };
+
 
   app.pageSetup = async function (page) {
     currentPage = page;
 
-    await insertCommonHtml();
+    await insertHeaderAsync();
+    insertFooter();
 
     await loadSiteDataAsync();
 
-    setPageText();
+    setPageContent();
 
     wireUpEvents();
 
     preloadImages();
   };
 
-  //#region COMMON HTML
-  async function insertCommonHtml() {
-    await insertHeaderAsync();
-    insertFooter();
-  }
 
+
+  //#region COMMON HTML
   async function insertHeaderAsync() {
     const header = document.createElement("header");
 
-    header.innerHTML = await appData.getTextFromFileAsync("./html/header.html");
+    header.innerHTML = await appIO.getTextFromFileAsync("./html/header.html");
     header.classList.add("m-md-auto", "d-flex");
     header.setAttribute("data-bs-theme", "dark");
 
@@ -52,38 +46,42 @@
   }
   //#endregion
 
-  async function loadSiteDataAsync(textRefresh = false) {
-    siteConfig = await appData.getFileDataAsync("config", "");
 
-    browserConfig = appData.getBrowserConfig(siteConfig);
+  async function loadSiteDataAsync(textRefresh = false) {
+    siteConfig = await appIO.getFileDataAsync("config", "");
+
+    browserConfig = appIO.getBrowserConfig(siteConfig);
     configureBrowser();
 
-    siteData = await appData.getFileDataAsync("site-data", browserConfig.lang, textRefresh);
+    siteData = await appIO.getFileDataAsync("site-data", browserConfig.lang, textRefresh);
   }
 
-  function setPageText() {
-    appText.setMenuText(siteData.menu);
+  function setPageContent() {
+    appContent.setMenuText(siteData.menu);
 
-    appText.setPageTitle(currentPage, siteData.pageTitle);
+    appContent.setPageTitle(currentPage, siteData.pageTitle);
 
     switch (currentPage) {
       case "home":
-        appText.setHomeText(siteData[currentPage]);
+        appContent.setHomeText(siteData[currentPage]);
         break;
       case "about":
-        appText.setAboutText(siteData[currentPage]);
+        appContent.setAboutText(siteData[currentPage]);
         break;
       case "contact":
-        appText.setContactText(siteData[currentPage]);
+        appContent.setContactText(siteData[currentPage]);
         break;
       case "portfolio":
-        appText.fillPortfoliosAsync(siteData.portfolio.items);
+        appContent.fillPortfolioAsync(siteData.portfolio.projects);
         break;
     }
 
-    appText.setFooterText(siteData.footerSuffix);
+    appContent.setFooterText(siteData.footerSuffix);
   }
 
+
+
+  //#region BROWSER CONFIG
   function configureBrowser() {
     setLanguage();
     setTheme();
@@ -108,10 +106,12 @@
     const pageTheme = browserConfig.theme === "auto" ? (sysLight ? "light" : "dark") : browserConfig.theme;
     document.documentElement.setAttribute("data-bs-theme", pageTheme);
   }
+  //#endregion
+
 
   function preloadImages(){
-    for (let i = 0; i < siteData.portfolio.items.length; i++) {
-      const item = siteData.portfolio.items[i];
+    for (let i = 0; i < siteData.portfolio.projects.length; i++) {
+      const item = siteData.portfolio.projects[i];
       for (let j = 0; j < item.images.length; j++) {
         const imgUrl = './img/portfolio/' + item.images[j] +  '.webp';
         let img = new Image();
@@ -157,10 +157,10 @@
       const selectedLang = selectedAnchor.getAttribute("data-bs-language");
       if (browserConfig.lang !== selectedLang) {
         browserConfig.lang = selectedLang;
-        appData.saveBrowserConfig(browserConfig);
+        appIO.saveBrowserConfig(browserConfig);
 
         await loadSiteDataAsync(true);
-        setPageText();
+        setPageContent();
       }
     }
   }
@@ -178,7 +178,7 @@
       const selectedTheme = selectedAnchor.getAttribute("data-bs-theme-value");
       if (browserConfig.theme !== selectedTheme) {
         browserConfig.theme = selectedTheme;
-        appData.saveBrowserConfig(browserConfig);
+        appIO.saveBrowserConfig(browserConfig);
         setTheme();
       }
     }
@@ -205,11 +205,12 @@
 
     const itemId = anchor.id;
 
-    appText.setPortfolioItemText(itemId, siteData.portfolio);
+    appContent.setPortfolioText(itemId, siteData.portfolio);
 
     document.getElementById("portfolio-showroom").classList.remove("show");
     document.getElementById("item-collapse").click();
   }
 
   //#endregion
+
 })((window.app = window.app || {}));

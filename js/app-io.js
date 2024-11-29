@@ -3,6 +3,7 @@
 
   const storageKey = "portfolio";
 
+  
   app.getFileDataAsync = async function (file, dataKey, refresh = false) {
     const storeKey = `${storageKey}-${file}`;
 
@@ -22,6 +23,7 @@
 
     return data;
   };
+
 
   app.getBrowserConfig = function (siteConfig) {
     let config = { lang: "", theme: "" };
@@ -53,9 +55,11 @@
     return config;
   };
 
+
   app.saveBrowserConfig = function (config) {
     localStorage.setItem(storageKey, JSON.stringify({ lang: config.lang, theme: config.theme }));
   };
+
 
   app.getTextFromFileAsync = async function (file) {
     let text = "";
@@ -67,4 +71,5 @@
 
     return text;
   };
-})((window.appData = window.appData || {}));
+
+})((window.appIO = window.appIO || {}));

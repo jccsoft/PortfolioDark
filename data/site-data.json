@@ -34,7 +34,7 @@
       "submit": "Contact"
     },
     "portfolio": {
-      "items": [
+      "projects": [
         {
           "id": 1,
           "title": "item 1",
@@ -84,7 +84,7 @@
       "submit": "Contact"
     },
     "portfolio": {
-      "items": [
+      "projects": [
         {
           "id": 1,
           "title": "item 1",
