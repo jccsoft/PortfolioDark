@@ -16,14 +16,13 @@
     await setPageContent();
 
     wireUpEvents();
-
-    preloadImages();
   };
 
 
 
+  //#region SITE DATA
   async function loadSiteDataAsync() {
-
+    
     siteConfig = await appIO.getSiteConfigAsync();
 
     browserStorage = appIO.getBrowserStorage(siteConfig.languages, siteConfig.defaultTheme);
@@ -31,20 +30,45 @@
     setSiteLanguage();
     setSiteTheme();
 
-
-    if(currentPage == "portfolio"){
-
-      portfolio = [];
-            
-      siteConfig.portfolio.fileNames.forEach(async fileName => {
-        const project = await fetch(`./data/${siteConfig.portfolio.folderName}/${fileName}.json`)
-                              .then((response) => response.json());
-        portfolio.push(project);
-      });
+    if(currentPage == "portfolio" || currentPage == "home"){
+      await loadPortolioAsync();
     }
-
   }
 
+
+  async function loadPortolioAsync(){
+    
+    portfolio = [];
+          
+    siteConfig.portfolio.fileNames.forEach(async fileName => {
+      const response = await fetch(`./data/${siteConfig.portfolio.folderName}/${fileName}.json`);
+
+      if(response.ok){
+
+        const project = await response.json();
+
+        portfolio.push(project);
+        
+        if (currentPage != "portfolio" && portfolio.length == siteConfig.portfolio.fileNames.length){
+          preloadImages();
+        }
+      }
+    });
+  }
+
+
+  function preloadImages(){
+    
+      for (let i = 0; i < portfolio.length; i++) {
+        const project = portfolio[i];
+        for (let j = 0; j < project.images.length; j++) {
+          const imgUrl = './img/portfolio/' + project.images[j] +  '.webp';
+          let img = new Image();
+          img.src = imgUrl;      
+        }
+      }
+  }
+  //#endregion
 
 
   async function setPageContent() {
@@ -223,15 +247,6 @@
   //#endregion
 
 
-  function preloadImages(){
-    for (let i = 0; i < portfolio.length; i++) {
-      const project = portfolio[i];
-      for (let j = 0; j < project.images.length; j++) {
-        const imgUrl = './img/portfolio/' + project.images[j] +  '.webp';
-        let img = new Image();
-        img.src = imgUrl;      
-      }
-    }
-  }
+  
 
 })((window.app = window.app || {}));
