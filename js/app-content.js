@@ -3,6 +3,7 @@
 
   let animationElements, animationIndex, animationTimeoutId;
 
+
   app.setPageTitle = function (currentPage, defaultTitle) {
     let title = defaultTitle;
     if (currentPage !== "home") title += ` - ${document.querySelector(".nav-link.active").innerText}`;
@@ -17,6 +18,7 @@
       document.getElementById(id).innerText = menu[id];
     }
   };
+
 
 //#region HOME-ABOUT
   app.setHomeText = function (pageData) {
@@ -50,8 +52,11 @@
 //#endregion
 
 
+
 //#region PORTFOLIO
-  app.fillPortfolioAsync = async function (projects) {
+
+  app.fillPortfolioAsync = async function (portfolios, lang) {
+
     const portfolioShowroom = document.getElementById("portfolio-showroom");
     const template = await appIO.getTextFromFileAsync("./html/portfolio-card.html");
 
@@ -60,15 +65,15 @@
     row.classList.add("row", "g-3", "row-cols-1", "row-cols-sm-2", "row-cols-md-3");
 
     let html;
-    for (let i = 0; i < projects.length; i++) {
-      const project = projects[i];
+    for (let i = 0; i < portfolios.length; i++) {
+      const project = portfolios[i];
 
       html = template
         .replace("@id", project.id)
         .replace("@image_srcset", `img/portfolio/${project.images[0]}.webp`)
         .replace("@image_src", `img/portfolio/png/${project.images[0]}.png`)
-        .replace("@title", project.title)
-        .replace("@description", project.description)
+        .replace("@title", project[lang].title)
+        .replace("@description", project[lang].description)
         .replace("@technologies", project.technologies);
 
       row.innerHTML += html;
@@ -81,44 +86,54 @@
     portfolioShowroom.classList.add("show");
   };
 
-  app.setProjectText = function (projectId, pageData) {
-    const project = pageData.projects.find((el) => el.id === Number(projectId));
+
+
+  app.setProjectText = function (project, lang) {
 
     setProjectSlides(project.images);
-    document.getElementById("project-title").innerText = project.title;
-    document.getElementById("project-description").innerText = project.description;
+    document.getElementById("project-title").innerText = project[lang].title;
+    document.getElementById("project-description").innerText = project[lang].description;
     document.getElementById("project-technologies").innerText = project.technologies;
 
-    if (project.highlights !== undefined && project.highlights.length > 0) {
+    if (project[lang].highlights !== undefined && project[lang].highlights.length > 0) {
       let htmlItems = "";
-      for (let i = 0; i < project.highlights.length; i++) {
-        const highlight = project.highlights[i];
+      for (let i = 0; i < project[lang].highlights.length; i++) {
+        const highlight = project[lang].highlights[i];
         htmlItems += `<li>${highlight}.</li>`;
       }
+
       document.getElementById("project-highlights-list").innerHTML = htmlItems;
       //document.getElementById("project-highlights-title").innerText = pageData.highlightsText;
       document.getElementById("project-highlights").classList.remove("visually-hidden");
+
     } else {
       document.getElementById("project-highlights").classList.add("visually-hidden");
     }
 
+
     const links = ["url", "url2", "swagger", "github"];
     const default_titles = ["Web", "Web", "Swagger", "GitHub"];
+
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
       const el = document.getElementById(`project-${link}`);
+
       if (project[link] !== undefined && project[link].length > 0) {
         el.href = project[link];
         el.style.visibility = "visible";
         let title = project[`${link}_title`];
         el.text = title !== undefined ? title : default_titles[i];
+
       } else {
         el.style.visibility = "hidden";
       }
     }
   };
 
+
+
   function setProjectSlides(images) {
+
     const carouselInner = document.querySelector("#images-carousel .carousel-inner");
     document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
     const firstItem = document.querySelector("#images-carousel .carousel-item.active");
@@ -132,6 +147,7 @@
       if (index > 0) {
         carouselInner.appendChild(firstItem.cloneNode(true));
       }
+
       const currentItem = document.querySelector("#images-carousel .carousel-inner .carousel-item:last-child");
       currentItem.querySelector("picture source").srcset = `img/portfolio/${imageName}.webp`;
       currentItem.querySelector("picture img").src = `img/portfolio/png/${imageName}.png`;
@@ -150,6 +166,7 @@
     form.querySelector("#message").previousElementSibling.innerText = pageData.message;
     form.querySelector("button").innerText = pageData.submit;
   };
+  
 
   app.setFooterText = function (footerSuffix) {
     if (footerSuffix.length > 0)

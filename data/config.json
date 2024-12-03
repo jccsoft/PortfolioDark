@@ -1,5 +1,79 @@
 {
   "languages": ["es"],
   "defaultTheme": "dark",
-  "contactMail": "[contactMail]"
+  "contactMail": "[contactMail]",
+  "portfolio": {
+    "fileNames":  ["project1", "project2"],
+    "folderName": "portfolio"
+  },
+  "es": {
+    "pageTitle": "Portfolio",
+    "footerSuffix": "",
+    "menu": {
+      "homeMenuId": "Home",
+      "portfolioMenuId": "Portfolio",
+      "aboutMenuId": "Acerca de mí",
+      "contactMenuId": "Contacto"
+    },
+    "home": {
+      "heading": "Hola",
+      "paragraphs": [
+        ["Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, perspiciatis."],
+        ["Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, itaque?."]
+      ],
+      "btnPortfolio": "ver Portfolio"
+    },
+    "about": {
+      "heading": "Acerca de mí",
+      "paragraphs": [
+        ["Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi distinctio amet earum enim numquam vel."],
+        [
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime in.",
+          ", aliquid velit recusandae saepe"
+        ]
+      ]
+    },
+    "contact": {
+      "heading": "Contact",
+      "name": "Name",
+      "email": "E-Mail",
+      "message": "Message",
+      "submit": "Contact"
+    }
+  },
+  "ca": {
+    "pageTitle": "Portfoli",
+    "footerSuffix": "",
+    "menu": {
+      "homeMenuId": "Home",
+      "portfolioMenuId": "Portfoli",
+      "aboutMenuId": "Sobre mi",
+      "contactMenuId": "Contacte"
+    },
+    "home": {
+      "heading": "Hola",
+      "paragraphs": [
+        ["(ca) Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, perspiciatis."],
+        ["(ca) Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, itaque?."]
+      ],
+      "btnPortfolio": "veure Portfoli"
+    },
+    "about": {
+      "heading": "Sobre mi",
+      "paragraphs": [
+        ["(ca) Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi distinctio amet earum enim numquam vel."],
+        [
+          "(ca) Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio maxime in.",
+          ", aliquid velit recusandae saepe"
+        ]
+      ]
+    },
+    "contact": {
+      "heading": "Contact",
+      "name": "Name",
+      "email": "E-Mail",
+      "message": "Message",
+      "submit": "Contact"
+    }
+  }
 }

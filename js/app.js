@@ -1,8 +1,8 @@
 (function (app) {
   ("use strict");
 
-  let siteConfig, siteData, currentPage;
-  let browserConfig = { lang: "", theme: "" };
+  let siteConfig, portfolio, currentPage;
+  let browserStorage = { lang: "", theme: "" };
 
 
   app.pageSetup = async function (page) {
@@ -13,7 +13,7 @@
 
     await loadSiteDataAsync();
 
-    setPageContent();
+    await setPageContent();
 
     wireUpEvents();
 
@@ -22,110 +22,70 @@
 
 
 
-  //#region COMMON HTML
-  async function insertHeaderAsync() {
-    const header = document.createElement("header");
+  async function loadSiteDataAsync() {
 
-    header.innerHTML = await appIO.getTextFromFileAsync("./html/header.html");
-    header.classList.add("m-md-auto", "d-flex");
-    header.setAttribute("data-bs-theme", "dark");
+    siteConfig = await appIO.getSiteConfigAsync();
 
-    let menuId = `#${currentPage}MenuId`;
-    if (currentPage === "project") menuId = "#portfolioMenuId";
-    const menu = header.querySelector(menuId);
-    menu.classList.add("active");
-    menu.setAttribute("aria-current", "page");
+    browserStorage = appIO.getBrowserStorage(siteConfig.languages, siteConfig.defaultTheme);
 
-    document.querySelector("body").prepend(header);
+    setSiteLanguage();
+    setSiteTheme();
+
+
+    if(currentPage == "portfolio"){
+
+      portfolio = [];
+            
+      siteConfig.portfolio.fileNames.forEach(async fileName => {
+        const project = await fetch(`./data/${siteConfig.portfolio.folderName}/${fileName}.json`)
+                              .then((response) => response.json());
+        portfolio.push(project);
+      });
+    }
+
   }
 
-  function insertFooter() {
-    const footer = document.createElement("footer");
-    footer.classList.add("bg-dark", "mt-2", "p-2", "fixed-bottom");
-    document.querySelector("body").append(footer);
-  }
-  //#endregion
 
 
-  async function loadSiteDataAsync(textRefresh = false) {
-    siteConfig = await appIO.getFileDataAsync("config", "");
+  async function setPageContent() {
 
-    browserConfig = appIO.getBrowserConfig(siteConfig);
-    configureBrowser();
+    const config = siteConfig[browserStorage.lang];
 
-    siteData = await appIO.getFileDataAsync("site-data", browserConfig.lang, textRefresh);
-  }
+    appContent.setMenuText(config.menu);
 
-  function setPageContent() {
-    appContent.setMenuText(siteData.menu);
+    appContent.setPageTitle(currentPage, config.pageTitle);
 
-    appContent.setPageTitle(currentPage, siteData.pageTitle);
 
     switch (currentPage) {
+
       case "home":
-        appContent.setHomeText(siteData[currentPage]);
+        appContent.setHomeText(config[currentPage]);
         break;
+
       case "about":
-        appContent.setAboutText(siteData[currentPage]);
+        appContent.setAboutText(config[currentPage]);
         break;
+
       case "contact":
-        appContent.setContactText(siteData[currentPage]);
+        appContent.setContactText(config[currentPage]);
         break;
+
       case "portfolio":
-        appContent.fillPortfolioAsync(siteData.portfolio.projects);
+        await appContent.fillPortfolioAsync(portfolio, browserStorage.lang);
         break;
     }
 
-    appContent.setFooterText(siteData.footerSuffix);
+    appContent.setFooterText(config.footerSuffix);
   }
 
 
-
-  //#region BROWSER CONFIG
-  function configureBrowser() {
-    setLanguage();
-    setTheme();
-  }
-
-  function setLanguage() {
-    document.querySelectorAll("#lang-list a").forEach((el) => el.classList.remove("selected"));
-
-    const languageItem = document.querySelector(`#lang-list a[data-bs-language = ${browserConfig.lang}]`);
-    if (languageItem !== null) languageItem.classList.add("selected");
-
-    document.documentElement.setAttribute("lang", browserConfig.lang);
-  }
-
-  function setTheme() {
-    document.querySelectorAll("#theme-list a").forEach((el) => el.classList.remove("selected"));
-
-    const themeItem = document.querySelector(`#theme-list a[data-bs-theme-value = ${browserConfig.theme}]`);
-    if (themeItem !== null) themeItem.classList.add("selected");
-
-    const sysLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-    const pageTheme = browserConfig.theme === "auto" ? (sysLight ? "light" : "dark") : browserConfig.theme;
-    document.documentElement.setAttribute("data-bs-theme", pageTheme);
-  }
-  //#endregion
-
-
-  function preloadImages(){
-    for (let i = 0; i < siteData.portfolio.projects.length; i++) {
-      const project = siteData.portfolio.projects[i];
-      for (let j = 0; j < project.images.length; j++) {
-        const imgUrl = './img/portfolio/' + project.images[j] +  '.webp';
-        let img = new Image();
-        img.src = imgUrl;      
-      }
-    }
-  }
 
   //#region EVENTS
   function wireUpEvents() {
     document.getElementById("lang-list").addEventListener("click", handleLanguageSelectAsync);
 
     document.getElementById("theme-list").addEventListener("click", handleThemeSelectAsync);
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => setTheme());
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => setSiteTheme());
 
     if (currentPage === "contact") document.getElementById("contact-form").onsubmit = handleFormSubmit;
 
@@ -155,11 +115,11 @@
       e.preventDefault();
 
       const selectedLang = selectedAnchor.getAttribute("data-bs-language");
-      if (browserConfig.lang !== selectedLang) {
-        browserConfig.lang = selectedLang;
-        appIO.saveBrowserConfig(browserConfig);
+      if (browserStorage.lang !== selectedLang) {
+        browserStorage.lang = selectedLang;
+        appIO.saveBrowserStorage(browserStorage);
 
-        await loadSiteDataAsync(true);
+        await loadSiteDataAsync();
         setPageContent();
       }
     }
@@ -176,10 +136,10 @@
       e.preventDefault();
 
       const selectedTheme = selectedAnchor.getAttribute("data-bs-theme-value");
-      if (browserConfig.theme !== selectedTheme) {
-        browserConfig.theme = selectedTheme;
-        appIO.saveBrowserConfig(browserConfig);
-        setTheme();
+      if (browserStorage.theme !== selectedTheme) {
+        browserStorage.theme = selectedTheme;
+        appIO.saveBrowserStorage(browserStorage);
+        setSiteTheme();
       }
     }
   }
@@ -205,12 +165,73 @@
 
     const projectId = anchor.id;
 
-    appContent.setProjectText(projectId, siteData.portfolio);
+    appContent.setProjectText(portfolio[projectId-1], browserStorage.lang);
 
     document.getElementById("portfolio-showroom").classList.remove("show");
     document.getElementById("project-collapse").click();
   }
 
   //#endregion
+
+
+
+  //#region COMMON HTML
+  async function insertHeaderAsync() {
+    const header = document.createElement("header");
+
+    header.innerHTML = await appIO.getTextFromFileAsync("./html/header.html");
+    header.classList.add("m-md-auto", "d-flex");
+    header.setAttribute("data-bs-theme", "dark");
+
+    let menuId = `#${currentPage}MenuId`;
+    if (currentPage === "project") menuId = "#portfolioMenuId";
+    const menu = header.querySelector(menuId);
+    menu.classList.add("active");
+    menu.setAttribute("aria-current", "page");
+
+    document.querySelector("body").prepend(header);
+  }
+
+  function insertFooter() {
+    const footer = document.createElement("footer");
+    footer.classList.add("bg-dark", "mt-2", "p-2", "fixed-bottom");
+    document.querySelector("body").append(footer);
+  }
+  //#endregion
+
+
+  //#region SITE SETTINGS
+    function setSiteLanguage() {
+      document.querySelectorAll("#lang-list a").forEach((el) => el.classList.remove("selected"));
+  
+      const languageItem = document.querySelector(`#lang-list a[data-bs-language = ${browserStorage.lang}]`);
+      if (languageItem !== null) languageItem.classList.add("selected");
+  
+      document.documentElement.setAttribute("lang", browserStorage.lang);
+    }
+  
+    function setSiteTheme() {
+      document.querySelectorAll("#theme-list a").forEach((el) => el.classList.remove("selected"));
+  
+      const themeItem = document.querySelector(`#theme-list a[data-bs-theme-value = ${browserStorage.theme}]`);
+      if (themeItem !== null) themeItem.classList.add("selected");
+  
+      const sysLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+      const pageTheme = browserStorage.theme === "auto" ? (sysLight ? "light" : "dark") : browserStorage.theme;
+      document.documentElement.setAttribute("data-bs-theme", pageTheme);
+    }
+  //#endregion
+
+
+  function preloadImages(){
+    for (let i = 0; i < portfolio.length; i++) {
+      const project = portfolio[i];
+      for (let j = 0; j < project.images.length; j++) {
+        const imgUrl = './img/portfolio/' + project.images[j] +  '.webp';
+        let img = new Image();
+        img.src = imgUrl;      
+      }
+    }
+  }
 
 })((window.app = window.app || {}));

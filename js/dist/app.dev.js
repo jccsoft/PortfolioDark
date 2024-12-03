@@ -103,14 +103,14 @@ function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only")
           case 0:
             textRefresh = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : false;
             _context4.next = 3;
-            return regeneratorRuntime.awrap(appData.getFileDataAsync("config", ""));
+            return regeneratorRuntime.awrap(appData.getDataFileAsync("config", ""));
 
           case 3:
             siteConfig = _context4.sent;
-            browserConfig = appData.getBrowserConfig(siteConfig);
+            browserConfig = appData.getBrowserStorage(siteConfig);
             configureBrowser();
             _context4.next = 8;
-            return regeneratorRuntime.awrap(appData.getFileDataAsync("site-data", browserConfig.lang, textRefresh));
+            return regeneratorRuntime.awrap(appData.getDataFileAsync("site-data", browserConfig.lang, textRefresh));
 
           case 8:
             siteData = _context4.sent;
@@ -225,7 +225,7 @@ function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only")
             }
 
             browserConfig.lang = selectedLang;
-            appData.saveBrowserConfig(browserConfig);
+            appData.saveBrowserStorage(browserConfig);
             _context5.next = 11;
             return regeneratorRuntime.awrap(loadSiteDataAsync(true));
 
@@ -256,7 +256,7 @@ function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only")
 
               if (browserConfig.theme !== selectedTheme) {
                 browserConfig.theme = selectedTheme;
-                appData.saveBrowserConfig(browserConfig);
+                appData.saveBrowserStorage(browserConfig);
                 setTheme();
               }
             }

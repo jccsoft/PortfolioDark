@@ -5,7 +5,7 @@
 
   var storageKey = "portfolio";
 
-  app.getFileDataAsync = function _callee(file, dataKey) {
+  app.getDataFileAsync = function _callee(file, dataKey) {
     var refresh,
         storeKey,
         cachedData,
@@ -67,7 +67,7 @@
     });
   };
 
-  app.getBrowserConfig = function (siteConfig) {
+  app.getBrowserStorage = function (siteConfig) {
     var config = {
       lang: "",
       theme: ""
@@ -96,11 +96,11 @@
       configChanged = true;
     }
 
-    if (configChanged) app.saveBrowserConfig(config);
+    if (configChanged) app.saveBrowserStorage(config);
     return config;
   };
 
-  app.saveBrowserConfig = function (config) {
+  app.saveBrowserStorage = function (config) {
     localStorage.setItem(storageKey, JSON.stringify({
       lang: config.lang,
       theme: config.theme

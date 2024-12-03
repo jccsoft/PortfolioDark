@@ -1,0 +1,22 @@
+{
+    "id": 1,
+    "images": [""],
+    "technologies": "Technology 1, Technology 2, Technology 3",
+    "url": "",
+    "url_title": "",
+    "url2": "",
+    "url2_title": "",
+    "swagger": "",
+    "swagger_title": "",
+    "github": "",
+    "es":{
+        "title": "item 1",
+        "description": "Description 1",
+        "highlights": ["Highlight 1", "Highlight 2"]
+    },
+    "ca":{
+        "title": "item 1",
+        "description": "Description 1",
+        "highlights": ["Highlight 1", "Highlight 2"]
+    }
+  }

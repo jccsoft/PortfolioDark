@@ -5,6 +5,7 @@
 
 # Development Data
 data/*.dev.json
+data/portfolio-dev/
 img/portfolio/*.*
 img/portfolio/png/*.*
 
